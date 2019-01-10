@@ -44,10 +44,65 @@ def get_pose(param, heatmaps, pafs):
     # Step 1: find all joints in the image (organized by joint type: [0]=nose,
     # [1]=neck...)
     joint_list_per_joint_type = NMS(param, heatmaps)
+
+    
+    
     # joint_list is an unravel'd version of joint_list_per_joint, where we add
     # a 5th column to indicate the joint_type (0=nose, 1=neck...)
     joint_list = np.array([tuple(peak) + (joint_type,) for joint_type,
                            joint_peaks in enumerate(joint_list_per_joint_type) for peak in joint_peaks])
+
+    # Step 2: find which joints go together to form limbs (which wrists go
+    # with which elbows)
+    paf_upsamp = cv2.resize(pafs, shape, interpolation=cv2.INTER_CUBIC)
+    connected_limbs = find_connected_joints(param, paf_upsamp, joint_list_per_joint_type)
+
+    # Step 3: associate limbs that belong to the same person
+    person_to_joint_assoc = group_limbs_of_same_person(connected_limbs, joint_list)
+
+    # (Step 4): plot results
+    label = create_label(shape, joint_list, person_to_joint_assoc)
+
+    return label
+
+def norm_pose(param, heatmaps, pafs):
+    b=369
+    ANKLE_IDS = [13]
+    shape = heatmaps.shape[:2]
+    # Bottom-up approach:
+    # Step 1: find all joints in the image (organized by joint type: [0]=nose,
+    # [1]=neck...)
+    joint_list_per_joint_type = NMS(param, heatmaps)
+
+    
+    # joint_list is an unravel'd version of joint_list_per_joint, where we add
+    # a 5th column to indicate the joint_type (0=nose, 1=neck...)
+    joint_list = np.array([tuple(peak) + (joint_type,) for joint_type,
+                           joint_peaks in enumerate(joint_list_per_joint_type) for peak in joint_peaks])
+    pose_list = []
+    # ここに、全てのcに対するfor文
+
+    # 1画像に対するポーズ情報の集まり
+    part_list = []
+    for i, x in enumerate(joint_list):
+    #   print(i, len(x))
+      if len(x) == 0:
+        continue
+      elif len(x) >= 2:
+        for xx in x:
+          print(xx)
+          part_list.append(xx)
+        continue
+      if x[1] >350:
+          x[1] -= b-x[1]
+          
+      else:
+          x[1] -= 10
+      part_list.append(x)
+
+    pose_list.append(part_list)
+
+    joint_list = pose_list
 
     # Step 2: find which joints go together to form limbs (which wrists go
     # with which elbows)
