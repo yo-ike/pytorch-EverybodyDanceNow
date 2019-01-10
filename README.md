@@ -1,20 +1,16 @@
 # pytorch-EverybodyDanceNow
 This repository tries to implement [Everybody Dance Now](https://arxiv.org/abs/1808.07371) by pytorch.
 
-![Result](output.gif)
+forkしたnyoki-mtl氏のものをGoogle Colaboratoryで動かすようにした
+及びGlobal Pose Normalizationの実装のチャレンジ
 
-## ToDo
+## 実行方法
+Googleドライブにここの構成をそのまま流す
+そうしたら1から順番に実行してゆく
+I/O入力がColaboratoryでは出来なそうなので新たに1.5としてtargetも動画から行えるように（その場合、2は省略して3を実行する）
 
-- Pose estimation
-    - [x] Pose
-    - [ ] Face
-    - [ ] Hand
-- [x] pix2pixHD
-- [ ] FaceGAN
-- [ ] Temporal smoothing
 
 ## Environments
-Ubuntu16.04  
-python3.6.4  
+Google Colaboratory(2019-01-10 Python3 GPUmode)
 pytorch: 0.4.1  
 opencv: 3.4.1  
