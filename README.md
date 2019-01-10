@@ -4,6 +4,7 @@ This repository tries to implement [Everybody Dance Now](https://arxiv.org/abs/1
 ![Result](output.gif)
 
 forkしたnyoki-mtl氏のものをGoogle Colaboratoryで動かすようにした  
+3Dモデルなどでの実行可能性を試しただけ  
 及びGlobal Pose Normalizationの実装のチャレンジ（途中)  
 
 ## 実行方法
